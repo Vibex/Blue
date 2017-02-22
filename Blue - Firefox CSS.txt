@@ -1,0 +1,400 @@
+/* Blue is a heavily modified version of Melbourne (http://noha-ra.deviantart.com/art/Melbourne-Firefox-CSS-FF-29-and-above-473887761) */
+/* Blue supports These extensions: Private Tab */
+/* Feel free to edit it however you please */
+/* TO DO */
+/* 1. Add vimperator support */
+/* 2. Make multi tab function properly (This has taken far longer then expected to get right, so moving it to the backburner for now) */
+/* 3. Allow for variable heights of the various bars (Not guranteed, just a random idea) */
+/* 4. Be awesome */
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"); /* AGENT_SHEET */
+@-moz-document url("chrome://browser/content/browser.xul"), url("chrome://navigator/content/navigator.xul") {
+    
+    
+    /*** OPTIONS ***/
+    :root {
+        /** COLOURS **/
+        /* General */
+        --tabBar: #c6c6c6;
+        --bor: #606a77;
+        --uBor: #a0a0a0;
+        
+        /* Tabs (when the window is focused) */
+        --tab: #ffffff;
+        --selTab: #4e5663;
+        --pinTab: #515c6b;
+        --priTab: #ffffff; /* Private Tab Only */
+        --selPinTab: #4e5663;
+        --selPriTab: #7c627d; /* Private Tab Only */
+        --pinPriTab: #836485; /* Private Tab Only */
+        --selPinPriTab: #7c627d; /* Private Tab Only */
+        --tabHover: #d9d9d9;
+        --selTabHover: #3b4452;
+        --pinTabHover: #4e5663;
+        --priTabHover: #d9d9d9; /* Private Tab Only */
+        --selPinTabHover: #3b4452;
+        --selPriTabHover: #614d6b; /* Private Tab Only */
+        --pinPriTabHover: #7c627d; /* Private Tab Only */
+        --selPinPriTabHover: #614d6b; /* Private Tab Only */
+        --tabFont: #999999;
+        --selTabFont: #ffffff;
+        --priTabFont: #98389f; /* Private Tab Only */
+        --selPriTabFont: #ffffff; /* Private Tab Only */
+        --tabFontHover: #000000;
+        --selTabFontHover: #ffffff;
+        --priTabFontHover: #94009f; /* Private Tab Only */
+        --selPriTabFontHover: #ffffff; /* Private Tab Only */
+        
+        /* Tabs (when the window is unfocused) */
+        --uTab: #ffffff;
+        --uSelTab: #c6c6c6;
+        --uPinTab: #d9d9d9;
+        --uPriTab: #ffffff; /* Private Tab Only */
+        --uSelPinTab: #c6c6c6;
+        --uSelPriTab: #c6c6c6; /* Private Tab Only */
+        --uPinPriTab: #d9d9d9; /* Private Tab Only */
+        --uSelPinPriTab: #c6c6c6; /* Private Tab Only */
+        --uTabHover: #d9d9d9;
+        --uSelTabHover: #a0a0a0;
+        --uPinTabHover: #c6c6c6;
+        --uPriTabHover: #d9d9d9; /* Private Tab Only */
+        --uSelPinTabHover: #a0a0a0;
+        --uSelPriTabHover: #a0a0a0; /* Private Tab Only */
+        --uPinPriTabHover: #c6c6c6; /* Private Tab Only */
+        --uSelPinPriTabHover: #a0a0a0; /* Private Tab Only */
+        --uTabFont: #999999;
+        --uSelTabFont: #000000;
+        --uPriTabFont: #999999; /* Private Tab Only */
+        --uSelPriTabFont: #000000; /* Private Tab Only */
+        --uTabFontHover: #000000;
+        --uSelTabFontHover: #000000;
+        --uPriTabFontHover: #000000; /* Private Tab Only */
+        --uSelPriTabFontHover: #000000; /* Private Tab Only */
+        
+        /* url */
+        --url: #ffffff;
+        --urlFont: #999999;
+        --urlBor: #c6c6c6;
+        
+        /* Nav */
+        --nav: #ffffff;
+
+        /** FONTS **/
+        --font: 'Segoe UI';
+        --fontSize: 12px;
+
+        /** OTHER **/
+        --tabMinWidth: 1px; /* Want to be 96px, but need to fix the multi tab for that first */
+        --tabMaxWidth: 204px;
+        --animation: .3s;
+    }
+    /*** END OF OPTIONS, BEGINING OF CSS ***/
+
+
+    /*** TABS ***/
+
+    /* Set tab Sizes */
+    .tabbrowser-tabs:not([drag=detach]) > .tabbrowser-tab:not([pinned])[fadein] {
+        min-width: var(--tabMinWidth) !important;
+        max-width: var(--tabMaxWidth) !important;
+    }
+
+    /* Style the bar itself */
+    #TabsToolbar {
+        padding: 0px !important;
+
+        margin: 0px !important;
+
+        border: none !important;
+
+        background: var(--tabBar) !important;
+    }
+
+    /* Settings for general tabs */
+    #TabsToolbar .tabbrowser-tabs {
+        height: 32px !important;
+
+        text-align: center !important;
+        text-decoration: none !important;
+
+        padding: 0px !important;
+
+        margin-top: 0px !important;
+        margin-bottom: -1px !important;
+        margin-left: -17px !important;
+        margin-right: -17px !important;
+
+        border: 1px solid var(--bor) !important;
+    }
+    #TabsToolbar .tabbrowser-tabs:-moz-window-inactive {
+        border: 1px solid var(--uBor) !important;
+    }
+    
+    /* Remove the underline on Private Tabs Requires Private Tab extension */
+    #TabsToolbar .tabbrowser-tab[privateTab-isPrivate] {
+        text-decoration: none !important;
+    }
+    
+    /* Fix the line above the tab bar when window is not maximized */
+    #main-window[sizemode="normal"] #TabsToolbar .tabbrowser-tabs {
+        margin-top: -1px !important;
+    }
+
+    /* Hide the Close button on tabs */
+    #tabbrowser-tabs tab .tab-close-button {
+        display: none !important;
+    }
+
+    /* Hide Icons and Throbber on non pinned tabs */
+    .tab-throbber:not([pinned]), .tabbrowser-tab:not([pinned]) .tab-icon-image {
+        display: none !important;
+    }
+
+    /* Hide the sound playing icon on pinned tabs */
+    .tabbrowser-tab[pinned] :-moz-any(.tab-icon-overlay[soundplaying]) {
+        display: none !important;
+    }
+    
+    /* Hide the glow on pinned tabs when their text changes */
+    .tabbrowser-tab > .tab-stack > .tab-content[pinned][titlechanged]:not([visuallyselected="true"]) {
+        background-image: none !important;
+    }
+
+    /* Defaults for tabs */
+    #TabsToolbar .tabbrowser-tab {
+        font-family: var(--font) !important;
+        font-size: var(--fontSize) !important;
+
+        transition: all var(--animation) !important;
+
+        padding: 0px !important;
+
+        margin: 0px !important;
+
+        border: none !important;
+    }
+    #TabsToolbar .tabbrowser-tab[pinned] {
+        position: relative !important;
+    }
+
+    /* Tab colours for all permutations */
+    #TabsToolbar .tabbrowser-tab {
+        background: var(--tab) !important;
+        color: var(--tabFont) !important;  
+    }
+    #TabsToolbar .tabbrowser-tab[selected] {
+        background: var(--selTab) !important;
+        color: var(--selTabFont) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[pinned] {
+        background: var(--pinTab) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[privateTab-isPrivate] {
+        background: var(--priTab) !important;
+        color: var(--priTabFont) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected][pinned] {
+        background: var(--selPinTab) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected][privateTab-isPrivate] {
+        background: var(--selPriTab) !important;
+        color: var(--selPriTabFont) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[pinned][privateTab-isPrivate] {
+        background: var(--pinPriTab) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected][pinned][privateTab-isPrivate] {
+        background: var(--selPinPriTab) !important;
+    }
+
+    /* Hovered tab colours for all permutations */
+    #TabsToolbar .tabbrowser-tab:hover {
+        background: var(--tabHover) !important;
+        color: var(--tabFontHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected]:hover {
+        background: var(--selTabHover) !important;
+        color: var(--selTabFontHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[pinned]:hover {
+        background: var(--pinTabHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[privateTab-isPrivate]:hover {
+        background: var(--priTabHover) !important;
+        color: var(--priTabFontHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected][pinned]:hover {
+        background: var(--selPinTabHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected][privateTab-isPrivate]:hover {
+        background: var(--selPriTabHover) !important;
+        color: var(--selPriTabFontHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[pinned][privateTab-isPrivate]:hover {
+        background: var(--pinPriTabHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected][pinned][privateTab-isPrivate]:hover {
+        background: var(--selPinPriTabHover) !important;
+    }
+
+    /* Inactive tab colours for all permutations */  
+    #TabsToolbar .tabbrowser-tab:-moz-window-inactive {
+        background: var(--uTab) !important;
+        color: var(--uTabFont) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected]:-moz-window-inactive {
+        background: var(--uSelTab) !important;
+        color: var(--uSelTabFont) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[pinned]:-moz-window-inactive {
+        background: var(--uPinTab) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[privateTab-isPrivate]:-moz-window-inactive {
+        background: var(--uPriTab) !important;
+        color: var(--uPriTabFont) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected][pinned]:-moz-window-inactive {
+        background: var(--uSelPinTab) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected][privateTab-isPrivate]:-moz-window-inactive {
+        background: var(--uSelPriTab) !important;
+        color: var(--uSelPriTabFont) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[pinned][privateTab-isPrivate]:-moz-window-inactive {
+        background: var(--uPinPriTab) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected][pinned][privateTab-isPrivate]:-moz-window-inactive {
+        background: var(--uSelPinPriTab) !important;
+    }
+
+    /* Inactive hovered tab colours for all permutations */
+    #TabsToolbar .tabbrowser-tab:hover:-moz-window-inactive {
+        background: var(--uTabHover) !important;
+        color: var(--uTabFontHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected]:hover:-moz-window-inactive {
+        background: var(--uSelTabHover) !important;
+        color: var(--uSelTabFontHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[pinned]:hover:-moz-window-inactive {
+        background: var(--uPinTabHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[privateTab-isPrivate]:hover:-moz-window-inactive {
+        background: var(--uPriTabHover) !important;
+        color: var(--uPriTabFontHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected][pinned]:hover:-moz-window-inactive {
+        background: var(--uSelPinTabHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected][privateTab-isPrivate]:hover:-moz-window-inactive {
+        background: var(--uSelPriTabHover) !important;
+        color: var(--uSelPriTabFontHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[pinned][privateTab-isPrivate]:hover:-moz-window-inactive {
+        background: var(--uPinPriTabHover) !important;
+    }
+    #TabsToolbar .tabbrowser-tab[selected][pinned][privateTab-isPrivate]:hover:-moz-window-inactive {
+        background: var(--uSelPinPriTabHover) !important;
+    }
+
+    /* Remove tab scrolling */
+    .scrollbutton-up, .scrollbutton-down, #alltabs-button {
+        display: none !important;
+    }
+    
+    /* Remove private window indicator */
+    .private-browsing-indicator, * #private-browsing-indicator-titlebar, * #private-browsing-indicator, * .private-browsing-indicator {
+       visibility: collapse !important;
+    }
+
+    /* Clean up */
+    #TabsToolbar .tab-background {
+        margin: 0 !important;
+
+        background: transparent !important;
+    }
+    #TabsToolbar .tab-background-start, #TabsToolbar .tab-background-end {
+        display: none !important;
+    }
+    #TabsToolbar .tab-background-middle {
+        margin: -4px -2px !important;
+
+        background: transparent !important;
+    }
+    #TabsToolbar .tabbrowser-tab:after, #TabsToolbar .tabbrowser-tab:before {
+        display: none !important;
+    }
+    .subviewbutton.panel-subview-footer {
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+    }
+
+
+    /*** URL BAR ***/
+
+    /* Remove backward and forward buttons */
+    #nav-bar  #back-button > .toolbarbutton-icon, #forward-button {
+        display: none !important;
+    }
+
+    /* General styling */
+    #searchbar > .searchbar-textbox,
+    #urlbar {
+        height: 30px;
+
+        font-family: var(--font) !important;
+        font-size: var(--fontSize) !important;
+        text-align: center !important;
+
+        padding: 0px !important;
+        padding-left: 57px !important;
+        padding-right: 8px !important;
+
+        margin: 0px !important;
+        margin-left: 12px !important;
+        margin-right: 8px !important;
+
+        border: 1px solid var(--urlBor) !important;
+
+        background: var(--url) !important;
+        color: var(--urlFont) !important;
+    }
+    #nav-bar {
+        height: 39px;
+
+        padding: 0px !important;
+
+        margin: 0px !important;
+        margin-top: 1px !important;
+        margin-bottom: -1px !important;
+
+        border: none !important;
+        border-bottom: 1px solid var(--bor) !important;
+
+        background: var(--url) !important;
+    }
+    #nav-bar:-moz-window-inactive {
+        border-color: var(--uBor) !important;
+    }
+    
+    /* Menu Button styling */
+    #PanelUI-button {
+        margin: 0px !important;
+    }
+    #PanelUI-menu-button {
+        padding: 0px !important;
+
+        margin: 0px !important;
+        margin-right: 8px !important;
+        margin-left: 8px !important;
+
+        border: none !important;
+    }
+
+    /* Clean up */
+    #identity-box, #dropmarker-icon, #historydropmarker, #autocomplete-history-dropmarker, #urlbar-history-dropmarker, #dropmarker,
+    #autocomplete-history-dropmarker, #urlbar-history-dropmarker, #urlbar-reload-button,
+    .autocomplete-history-dropmarker.urlbar-history-dropmarker,
+    #plugins-notification-icon, #notification-anchor-icon, #notification-popup-box {
+        display: none !important;
+    }
+}
