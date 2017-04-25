@@ -172,6 +172,10 @@
 
         border: none !important;
     }
+    
+    /* Firefox 53 screwed up centered tab text, but this fixes it */
+    .tab-label {-moz-box-flex: 1 !important; text-align: center !important;}
+    
     #TabsToolbar .tabbrowser-tab[pinned] {
         position: relative !important;
     }
